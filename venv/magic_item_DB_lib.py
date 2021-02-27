@@ -72,7 +72,7 @@ try:
         # ccy = 'gp'
         # dti = datetime.datetime.now()
 
-        insert_records = '''INSERT INTO T_Items (Item_Name,Item_Price,Item_CCY,DTInsert) VALUES(?,?,?,?) '''
+        insert_records = '''INSERT INTO '''+table+''' (Item_Name,Item_Price,Item_CCY,DTInsert) VALUES(?,?,?,?) '''
         cursor.execute(insert_records, name, price, ccy, dti)
         conn.commit()
         return

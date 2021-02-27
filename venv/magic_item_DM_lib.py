@@ -1,6 +1,5 @@
 import pyodbc
-import wmi
-import win32api
+#import win32api
 import pyodbc
 import sys
 import datetime
@@ -32,6 +31,17 @@ try:
     for row in cursor:
         print(row)
 
+    # delete_query = '''DELETE FROM T_Items WHERE Item_Price=125'''
+    # cursor.execute(delete_query )
+    # conn.commit()
+
+
+    # update_query = ''' UPDATE T_Items SET Item_Price = 400 WHERE Item_Name='Peos' '''
+    # cursor.execute(update_query)
+    # conn.commit()
+
+
+    #################################################################
 
     # name = "Peos"
     # price = 125
@@ -41,24 +51,23 @@ try:
     # insert_records = '''INSERT INTO T_Items (Item_Name,Item_Price,Item_CCY,DTInsert) VALUES(?,?,?,?) '''
     # cursor.execute(insert_records, name, price, ccy, dti)
     # conn.commit()
-
-    #item_Name
-    #Item_Price
-    #Item_CCY
-    #DTInsert
-
-
-
+    #
+    # item_Name
+    # Item_Price
+    # Item_CCY
+    # DTInsert
+    #
     # insert_records = '''INSERT INTO Books(Item_Name, Item_Price, Item_CCY, DTInsert) VALUES(?,?) '''
     # cursor.execute(insert_records, name, price)
     # conn.commit()
     #
     #
 
+########################################
 
-
-
-
+    input('New table')
+    for row in cursor:
+        print(row)
 except:
     print(sys.exc_info())
 
