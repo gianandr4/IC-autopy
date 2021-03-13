@@ -1,5 +1,5 @@
 import pyodbc
-import win32api
+#import win32api
 import pyodbc
 import sys
 import datetime
@@ -9,27 +9,8 @@ table='T_Items'
 
 
 try:
-    class CRUD_autopy():
-        def __init__(self,name,price,ccy='gp'):
-            self.Item_Name = '' ########## nonull
-            self.Item_Special = ''
-            self.Item_Price = int(1) ########## nonull int
-            self.Item_CCY = 'gp/cp/pp' ########## nonull
-            self.Item_Slot = ''
-            self.Item_Casterlevel = ''
-            self.Item_Aura = ''
-            self.Item_Weight = ''
-            self.Item_Description = ''
-            self.Item_Craftprerequisites = ''
-            self.Item_Costtocreate = ''
-            self.Item_Lore = ''
-            self.Item_BookNametem_BookName = ''
-            self.Item_BookDisplay = ''
-            self.DTInsert = datetime.datetime.now()
-            self.Note = ''
-            self.Item_Activation = ''
-
-    def connect(): # CONNECT TO DATABASE, AND RETURN CURSOR
+    # CONNECT TO DATABASE, AND RETURN CURSOR
+    def connect():
         conn = pyodbc.connect('Driver={ODBC Driver 11 for SQL Server};'
                               'Server=IC-PROJECT;'
                               'UID=autopy;'
@@ -40,88 +21,96 @@ try:
         return conn.cursor()
 
 
-    # def create_table():
-    #     return
 
-
-    def read_convert(table,to_pandas=False):
-        cursor=connect()
-
-        select_record = '''SELECT * FROM '''+table
+    # CONNECT TO DATABASE, READ THE TABLE, RETURN LIST OR PANDAS
+    def reader(cursor,table='T_Items',to_pandas=False):
+        select_record = '''SELECT * FROM ''' + table
         cursor.execute(select_record)
-        out=[]
+
+        out = []
+        # CONVERT TO LIST
 
         for row in cursor:
-            print(row)
-            out.append(row)
+            rowlist=list(row)
 
-        if topandas:
+
+
+            out.append(rowlist)
+
+
+        # CONVER LIST TO PANDAS IF TRUE
+
+        if to_pandas:
             try:
                 import pandas
                 out=pandas.DataFrame(out)
-
             except:
-                print(sys.exc_info(),'Could not conver to pandas, list is returned')
+                print(sys.exc_info(),'Could not convert to pandas, list is returned')
         return out
 
+except:print(sys.exc_info())
+
+    # CONNECT TO DATABASE, AND RETURN CURSOR
+    # def updater(cursor,table='T_Items',intype):
 
 
-    def list_write(input, frompandas=False):
-        # name = "Peos"
-        # price = 125
-        # ccy = 'gp'
-        # dti = datetime.datetime.now()
-
-        insert_records = '''INSERT INTO '''+table+''' (Item_Name,Item_Price,Item_CCY,DTInsert) VALUES(?,?,?,?) '''
-        cursor.execute(insert_records, name, price, ccy, dti)
-        conn.commit()
-        return
-
-
-
-    def delete_entry():
-        return
-
-
-
+    #
+    # def list_write(input, frompandas=False):
+    #     # name = "Peos"
+    #     # price = 125
+    #     # ccy = 'gp'
+    #     # dti = datetime.datetime.now()
+    #
+    #     insert_records = '''INSERT INTO '''+table+''' (Item_Name,Item_Price,Item_CCY,DTInsert) VALUES(?,?,?,?) '''
+    #     cursor.execute(insert_records, name, price, ccy, dti)
+    #     conn.commit()
+    #     return
+    #
+    #
+    #
+    # def delete_entry():
+    #     return
 
 
-    name = NULL
-    special = ''
-    price = ''
-    ccy = ''
-    slot = ''
-    cl = ''
-    aura = ''
-    weight = ''
-    desc = ''
-    craft = ''
-    cost = ''
-    lore = ''
-    bname = ''
-    bdis = ''
-    dti = ''
-    note = ''
-    act = ''
-    x=CRUD_autopy(
-        name,
-        special,
-        price,
-        ccy,
-        slot,
-        cl,
-        aura,
-        weight,
-        desc,
-        craft,
-        cost,
-        lore,
-        bname,
-        bdis,
-        dti,
-        note,
-        act,
-                )
+
+
+
+    # name = None
+    # special = ''
+    # price = ''
+    # ccy = ''
+    # slot = ''
+    # cl = ''
+    # aura = ''
+    # weight = ''
+    # desc = ''
+    # craft = ''
+    # cost = ''
+    # lore = ''
+    # bname = ''
+    # bdis = ''
+    # dti = ''
+    # note = ''
+    # act = ''
+    # x=CRUD_autopy(
+    #     name,
+    #     special,
+    #     price,
+    #     ccy,
+    #     slot,
+    #     cl,
+    #     aura,
+    #     weight,
+    #     desc,
+    #     craft,
+    #     cost,
+    #     lore,
+    #     bname,
+    #     bdis,
+    #     dti,
+    #     note,
+    #     act,
+    #             )
 
 
 
@@ -180,8 +169,6 @@ try:
 
 
 
-except:
-    print(sys.exc_info())
 
 
 # USE LibraryDB
