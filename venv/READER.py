@@ -14,7 +14,7 @@ item=appendix[0] #'SKILL SHARD\n'
 
 items_list=[]
 for item in appendix:
-    print('a')
+    print('a',end='')
     name=item.replace('\n','')
     # name = item.replace(' ','^( |\n)$')
 
@@ -55,13 +55,13 @@ for item in items_list:
         b=None
 
 
-
+########################################    NEED TO FIX CAUSE PRICE IS ON NEXT LINE
     # item price c
     x_pattern=re.compile(r'Price \(Item Level\)?: (.*)')
     result= x_pattern.search(ITEM)
     if not result == None:
         c = result.group(1).split(' ')
-        c1=c[0].replace('\n',' ').replace('  ',' ')
+        c1=int(c[0].replace('\n',' ').replace('  ',' ').replace(',',''))
         c2=c[1].replace('\n',' ').replace('  ',' ')
 
 
@@ -92,7 +92,6 @@ for item in items_list:
     if not result == None and not result.group(1) == None:
         f = result.group(1).replace('\n',' ').replace('  ',' ')
         if f == None:print(ITEM)
-        input()
     else:
         f = None
 
@@ -103,6 +102,14 @@ for item in items_list:
         g = result.group(1).replace('\n',' ').replace('  ',' ')
         if g=='':
             g='-'
+        # elif g=='1/2':
+        #     g=0,5
+        # else:
+        #     g = float(g)
+
+
+
+
 
     else:
         g = None
@@ -168,6 +175,8 @@ for item in items_list:
     else:
         p = None
 
+    q = 'short desc placeholder'
+
 
 
 
@@ -200,18 +209,71 @@ for item in items_list:
         'DTInsert':n,
         'Note ':o,
         'Item_Activation':p,
-        'Item_ShortDescr': None
+        'Item_ShortDescr':q
     }
     items_dict.append(dict)
 
 # .replace(\n,' ').replace('  ',' ')
 
-for i in items_dict:
-    input()
-    for j in i:
-        print(j,':  ',i[j])
+# for i in items_dict:
+#     for j in i:
+#         print(j,':  ',i[j])
 
 
-import magic_item_DB_lib
+import magic_item_DB_lib as f
 
 
+conn=f.connect()#################################### CONNECTION FUNCTION FROM LIB
+
+
+
+
+
+#################################################### READER FUNCTION FROM lib
+# table=f.reader(conn=conn,to_pandas=False)
+# print('\nLast Insert:')
+# print(table[-1][-1],table[-1][0],'---->',table[-1][-4],'\n')
+# if input('Print table? (yes)').lower()=='yes':
+#     for i in table:
+#         print(i)
+
+
+#################################################### WRITER FUNCTION (COMMIT)
+
+if input('Do you wish to insert? (yes)').lower()=='yes':
+
+
+
+
+    ## dict = {'Item_Name':'Severed Hand', 'Item_Price': 100, 'Item_CCY': 'gp','Note':'Test', 'DTInsert': datetime.datetime.now()}
+ #    dict={'Item_Name': 'SKILL SHARD',
+ # 'Item_Special': 'None',
+ # 'Item_Price': 100,
+ # 'Item_CCY': 'gp',
+ # 'Item_Slot': ' — (held)',
+ # 'Item_Casterlevel': '7th',
+ # 'Item_Aura': 'Moderate; (DC 18) transmutation ',
+ # # 'Item_Weight': '-',
+ # 'Item_Description': None,
+ # 'Item_CraftPrerequisites': 'Craft Wondrous Item, specifi ed skill 2 ranks (lesser) or 5 ranks (greater). ',
+ # 'Item_CostToCreate': '25 gp, 1 XP, 1 day (lesser); 150 gp, 6 XP, 1 day (greater)',
+ # 'Item_Lore': 'lore placeholder',
+ # 'Item_BookName': 'Magic Item Compendium',
+ # 'Item_BookDisplay': 'MIC',
+ # 'DTInsert': datetime.datetime.now(),
+ # 'Note ': 'first auto insert',
+ # 'Item_Activation': ' Swift (command) ',
+ # 'Item_ShortDescr': 'short desc placeholder'
+ #    }
+
+    for dict in items_dict:
+        # input()
+        f.writer(conn=conn,item_dict=dict)
+    conn.commit()
+
+
+conn.close()
+
+
+# for x in dict:
+#     print(x,dict[x])
